@@ -28,6 +28,11 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+	implementation("org.springframework:spring-oxm")
+	implementation("javax.xml.bind:jaxb-api:2.2.11")
+	implementation("com.sun.xml.bind:jaxb-core:2.2.11")
+	implementation("javax.activation:activation:1.1.1")
+
 	runtimeOnly("mysql:mysql-connector-java")
 	annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
 
