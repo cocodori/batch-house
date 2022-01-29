@@ -3,6 +3,7 @@ package com.fastcampus.housebatch.job.apt
 import com.fastcampus.housebatch.adapter.ApartmentApiResource
 import com.fastcampus.housebatch.core.dto.AptDealDto
 import com.fastcampus.housebatch.core.repository.LawdRepository
+import com.fastcampus.housebatch.core.service.AptDealService
 import com.fastcampus.housebatch.job.validator.FilePathParameterValidator
 import com.fastcampus.housebatch.job.validator.LawdCdParameterValidator
 import com.fastcampus.housebatch.job.validator.YearMonthParameterValidator
@@ -38,13 +39,12 @@ class AptDealInsertJobConfig(
     fun aptDealInsertJob(
         aptDealInsertStep: Step,
         guLawdCdStep: Step,
-        stepContextPrintStep: Step,
     ): Job {
         return jobBuilderFactory["aptDealInsertJob"]
             .incrementer(RunIdIncrementer())
             .validator(aptDealJobParametersValidator())
             .start(guLawdCdStep)
-            .on("CONTINUABLE").to(stepContextPrintStep).next(guLawdCdStep)
+            .on("CONTINUABLE").to(aptDealInsertStep).next(guLawdCdStep)
             .from(guLawdCdStep)
             .on("*").end()
             .end()
@@ -135,9 +135,10 @@ class AptDealInsertJobConfig(
 
     @StepScope
     @Bean
-    fun aptDealWriter(): ItemWriter<AptDealDto> {
+    fun aptDealWriter(aptDealService: AptDealService): ItemWriter<AptDealDto> {
         return ItemWriter { items ->
-            items.forEach { println(it) }
+            items.forEach { aptDealService.upsert(it) }
+
             println("================= COMMIT ===================")
         }
     }

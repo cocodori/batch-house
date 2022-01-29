@@ -1,6 +1,9 @@
 package com.fastcampus.housebatch.core.dto
 
-import javax.xml.bind.annotation.*
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import javax.xml.bind.annotation.XmlElement
+import javax.xml.bind.annotation.XmlRootElement
 
 
 /**
@@ -46,4 +49,17 @@ data class AptDealDto(
 
     @get:XmlElement(name = "해제여부")
     var dealCanceled: String? = null
-)
+) {
+    fun getDealDate(): LocalDate =
+        LocalDate.of(year!!, month!!, day!!)
+
+    fun getDealAmountReplace() = dealAmount!!.replace(",".toRegex(), "").trim().toLong()
+
+    fun isDealCanceled() =
+        "O" == dealCanceled
+
+    fun dealCanceledDateStrToLocalDate() = if (dealCanceledDate?.isBlank() == true) null
+        else LocalDate.parse(dealCanceledDate?.trim(), DateTimeFormatter.ofPattern("yy.MM.dd"))
+
+    fun getJibunNotNull() = jibun ?: ""
+}
