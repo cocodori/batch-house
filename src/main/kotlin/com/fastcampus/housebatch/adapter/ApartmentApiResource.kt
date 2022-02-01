@@ -1,6 +1,7 @@
 package com.fastcampus.housebatch.adapter
 
 import org.springframework.beans.factory.annotation.Value
+import org.springframework.core.io.Resource
 import org.springframework.core.io.UrlResource
 import org.springframework.stereotype.Component
 import java.lang.IllegalArgumentException
@@ -22,7 +23,7 @@ class ApartmentApiResource(
     private val serviceKey: String
 ) {
 
-    fun getResource(lawdCd: String, yearMonth: YearMonth): UrlResource {
+    fun getResource(lawdCd: String, yearMonth: YearMonth): Resource {
         val url = String.format(
             "%s?serviceKey=%s&LAWD_CD=%s&DEAL_YMD=%s",
             path,
