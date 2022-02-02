@@ -28,5 +28,5 @@ class AptNotification(
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var aptNotificationId: Long
+    var aptNotificationId: Long? = null
 )
